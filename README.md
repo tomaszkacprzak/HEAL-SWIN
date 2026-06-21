@@ -24,17 +24,29 @@ The paths to these directories are read from the file `compute_environment/curre
 
 The Python packages required to run the code are specified in `containers/requirements.txt`. To build the singularity/apptainer container with which the code was tested, run `python3 run.py build-singularity`. The container will be saved according to the specifications in the compute environment. To build the docker container `heal_swin` from the requirements file, run `python3 run.py build-docker`.
 
-## Install dependencies using pip
+## Install dependencies with uv or pip
 
-Although it is recommended to run the code inside the singularity/apptainer container which was used for development as described above, we also provide a `setup.py` to install the necessary dependencies using pip. To do this, execute
+Although it is recommended to run the code inside the singularity/apptainer container which was used for development as described above, the repository is now a standard Python project configured through `pyproject.toml`. The project targets Python 3.8 to preserve compatibility with the pinned PyTorch stack used by the reference implementation.
 
-    pip3 install --upgrade pip
-    pip3 install -e .[test,formatting,dev]
-	
-in the root directory. This will require Python 3.8 which can e.g. be installed using Conda. By installing in editable mode (`-e`), this will also add the root directory to the Python path as required. In order to compute the Chamfer distance for the depth estimation task, PyTorch3D in version 0.7.2 is required and has to be installed separately via
+For a modern [`uv`](https://docs.astral.sh/uv/) workflow, create and synchronize the development environment from the repository root with:
+
+    uv python install 3.8
+    uv sync --extra dev
+
+The `uv` environment installs the project in editable/package mode, exposes the `heal-swin` command, and installs the development tools declared in `pyproject.toml`. You can then run repository tasks with either the script entry point or through uv, for example:
+
+    uv run heal-swin test-repo
+    uv run python run.py --help
+
+If you prefer pip, use the same project metadata with:
+
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -e .[dev]
+
+In order to compute the Chamfer distance for the depth estimation task, PyTorch3D in version 0.7.2 is required and has to be installed separately via
 
     FORCE_CUDA=1 pip3 install git+https://github.com/facebookresearch/pytorch3d.git@3145dd4d16edaceb394838364b8e87a440f83c10
-	
+
 Further details on the installation of PyTorch3D can be found [here](https://github.com/facebookresearch/pytorch3d/blob/3145dd4d16edaceb394838364b8e87a440f83c10/INSTALL.md). 
 
 After installation, you can then use the `local` environment of the `run.py` script as detailed below. Note that in order to use the database backend of MLflow for logging, you additionally need to install SQLite.
