@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "heal-swin"
+version = "0.1.0"
+description = "Reference implementation of HEAL-SWIN: A vision transformer on the sphere."
+readme = "README.md"
+requires-python = ">=3.8,<3.9"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Jan Gerken" },
+  { name = "Oscar Carlsson" },
+  { name = "Hampus Linander" },
+  { name = "Heiner Spieß" },
+]
+keywords = ["computer-vision", "healpix", "pytorch", "swin-transformer", "spherical-images"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "chamfer-distance @ git+https://github.com/otaheri/chamfer_distance@f86f6f7cadd3aca642704573d1626c67ca2e2846",
+  "dill",
+  "einops",
+  "healpy",
+  "matplotlib",
+  "mlflow",
+  "numpy",
+  "pandas",
+  "Pillow",
+  "pytorch-lightning",
+  "scipy",
+  "timm",
+  "torch",
+  "torchmetrics",
+  "torchvision",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "flake8",
+  "pytest",
+  "tensorboard",
+  "yapf",
+]
+
+[project.scripts]
+heal-swin = "run:main"
+
+[project.urls]
+Homepage = "https://github.com/JanEGerken/HEAL-SWIN"
+Repository = "https://github.com/JanEGerken/HEAL-SWIN"
+Paper = "https://arxiv.org/abs/2307.07313"
+
+[tool.setuptools]
+py-modules = ["run"]
+packages = { find = { include = ["compute_environment", "compatibility", "heal_swin", "heal_swin.*"] } }
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+  "black",
+  "flake8",
+  "pytest",
+  "tensorboard",
+  "yapf",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+
+[tool.pytest.ini_options]
+testpaths = ["heal_swin/testing"]

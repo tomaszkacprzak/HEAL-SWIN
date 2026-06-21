@@ -1,28 +1,49 @@
-# python-related
+# Python
 __pycache__/
-*.pyc
-**/cache*
-**/.eggs*
-*.egg-info
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
 *.ipynb_checkpoints/
 lightning_logs/
 
-# repo specific
-datasets
-mlruns
-archive
+# Test and tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Project runtime artifacts
+datasets/
+mlruns/
+archive/
+slurm/
 slurm/slurm*
 containers/*.sif
 containers/J_dense_0-278.npy
-mlp_cache
+mlp_cache/
+matplotlib_cache/
+current_environment.py
 compute_environment/current_environment.py
-layer_visualizations
-equivariance_tests
-.vscode/*
-scratchbooks/*
+layer_visualizations/
+equivariance_tests/
+scratchbooks/
 heal_swin/run_configs/*/DEBUG_*
+*.sqlite
+*.db
 
 # zenseact-related
 zenseact/*
 !zenseact/__init__.py
 !zenseact/README.md
+
+# Editors and OS files
+.vscode/
+.idea/
+.DS_Store
